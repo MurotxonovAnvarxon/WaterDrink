@@ -2,26 +2,11 @@ package uz.gita.waterdrink
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.Context
-import android.content.SharedPreferences
-import android.hardware.Sensor
-import android.hardware.SensorManager
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.annotation.RequiresApi
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -33,10 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -49,27 +31,19 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
-import com.karumi.dexter.Dexter
-import com.karumi.dexter.MultiplePermissionsReport
-import com.karumi.dexter.PermissionToken
-import com.karumi.dexter.listener.PermissionRequest
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import dagger.hilt.android.AndroidEntryPoint
 import uz.gita.waterdrink.presentor.components.WatterBottle
 import uz.gita.waterdrink.ui.theme.WaterDrinkTheme
 import uz.gita.waterdrink.worker.WorkerHelper
-import java.util.Random
 import java.util.concurrent.TimeUnit
 
 @AndroidEntryPoint
 @ExperimentalPermissionsApi
 class MainActivity : ComponentActivity() {
-
 
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("ObsoleteSdkInt", "InlinedApi")
@@ -116,7 +90,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                     val totalWaterAmount = remember {
-                        2000
+                        3000
                     }
 
 
@@ -128,20 +102,20 @@ class MainActivity : ComponentActivity() {
                     ) {
 
 
-                        var waterL by remember { mutableStateOf("") }
+//                        var waterL by remember { mutableStateOf("") }
 
-                        TextField(
-                            value = waterL,
-                            onValueChange = {
-                                waterL = it
-                            },
-                            modifier = Modifier 
-                                .padding(top = 20.dp)
-                                .padding(start = 20.dp)
-                                .width(150.dp)
-                                .height(56.dp)
-
-                        )
+//                        TextField(
+//                            value = waterL,
+//                            onValueChange = {
+//                                waterL = it
+//                            },
+//                            modifier = Modifier
+//                                .padding(top = 20.dp)
+//                                .padding(start = 20.dp)
+//                                .width(150.dp)
+//                                .height(56.dp)
+//
+//                        )
 
                         Button(
                             modifier = Modifier
@@ -173,6 +147,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text(text = "Every 30 min")
                         }
+
+
+
                         Button(
                             modifier = Modifier
                                 .align(Alignment.TopEnd)
@@ -191,8 +168,6 @@ class MainActivity : ComponentActivity() {
                         }
 
 
-
-
                         WatterBottle(
                             totalWaterAmount = totalWaterAmount,
                             unit = "ml",
@@ -200,6 +175,7 @@ class MainActivity : ComponentActivity() {
                             modifier = Modifier.align(Alignment.Center)
                         )
                         Spacer(modifier = Modifier.height(20.dp))
+
                         Text(
                             text = "Total Amount is : $totalWaterAmount",
                             textAlign = TextAlign.Center,
@@ -208,13 +184,13 @@ class MainActivity : ComponentActivity() {
                                 .align(Alignment.BottomCenter)
                                 .padding(bottom = 150.dp)
                         )
+
                         Button(
                             onClick = {
-                                if (usedWaterAmount >= 2000) {
-                                    usedWaterAmount = 2000
+                                if (usedWaterAmount >= 3000) {
+                                    usedWaterAmount = 3000
                                 } else {
-                                    usedWaterAmount = usedWaterAmount + 200
-
+                                    usedWaterAmount += 300
                                 }
                             },
                             colors = ButtonDefaults.buttonColors(containerColor = Color(0xff279EFF)),
@@ -224,12 +200,13 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Text(text = "Drink")
                         }
+
                     }
                 }
             }
         }
     }
-
-
 }
+
+
 
